@@ -16,7 +16,13 @@ async fn convert(temp_input: web::Form<TempInput>) -> impl Responder {
         (temp_input.temperature * 9.0 / 5.0) + 32.0
     };
 
-    let response_msg = format!("Converted temperature: {}", converted_temp as i32);
+    let response_msg;
+    if temp_input.unit == "f" {
+        response_msg = format!("{}° Celsius", converted_temp as i32);
+    } else {
+        response_msg = format!("{}° Fahrenheit", converted_temp as i32);
+    }
+
     HttpResponse::Ok().body(response_msg)
 }
 
