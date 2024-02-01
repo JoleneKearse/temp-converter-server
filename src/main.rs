@@ -16,14 +16,14 @@ async fn convert(temp_input: web::Form<TempInput>) -> impl Responder {
         (temp_input.temperature * 9.0 / 5.0) + 32.0
     };
 
-    let response_msg = format!("Converted temperature: {}", converted_temp);
+    let response_msg = format!("Converted temperature: {}", converted_temp as i32);
     HttpResponse::Ok().body(response_msg)
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
-        let cors = Cors::default();
+        let cors = Cors::permissive();
 
         App::new().wrap(cors).service(convert)
     })
